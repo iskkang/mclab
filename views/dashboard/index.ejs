@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+    <link class="js-stylesheet" href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+    
+
+</head>
+<body>
+<%- include('./sidebar') %>
+
+<main class="content">
+    <div class="container-fluid p-0">
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3>Analytics</h3>
+						</div>
+
+						<div class="col-auto ms-auto text-end mt-n1">
+
+							<div class="dropdown me-2 d-inline-block position-relative">
+								<a class="btn btn-light bg-white shadow-sm dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-display="static">
+        <i class="align-middle mt-n1" data-feather="calendar"></i> Today
+      </a>
+
+								<div class="dropdown-menu dropdown-menu-end">
+									<h6 class="dropdown-header">Settings</h6>
+									<a class="dropdown-item" href="#">Action</a>
+									<a class="dropdown-item" href="#">Another action</a>
+									<a class="dropdown-item" href="#">Something else here</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="#">Separated link</a>
+								</div>
+							</div>
+
+							<button class="btn btn-primary shadow-sm">
+      <i class="align-middle" data-feather="filter">&nbsp;</i>
+    </button>
+							<button class="btn btn-primary shadow-sm">
+      <i class="align-middle" data-feather="refresh-cw">&nbsp;</i>
+    </button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-xl-5 d-flex">
+							<div class="w-100">
+
+								<div class="row">
+									<div class="col-sm-6 col-lg-12 col-xxl-6 d-flex">
+										<div class="card illustration flex-fill">
+											<div class="card-body p-0 d-flex flex-fill">
+												<div class="row g-0 w-100">
+													<div class="col-6">
+														<div class="illustration-text p-3 m-1">
+															<h4 class="illustration-text">안녕하세요!</h4>
+															<p class="mb-0">MTL Dashboard</p>
+														</div>
+													</div>
+													<div class="col-6 align-self-end text-end">
+														<img src="https://appstack.bootlab.io/img/illustrations/searching.png" alt="Searching" class="img-fluid illustration-img">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-lg-12 col-xxl-6 d-flex">
+										<div class="card illustration flex-fill">
+											<div class="card-body p-0 d-flex flex-fill">
+												<div class="row g-0 w-100">
+													<div class="col-6">
+														<div class="illustration-text p-3 m-1">
+															<h4 class="card-title">Rail</h4>
+                                                            <span class="h1 d-inline-block mt-1 mb-4"><%= totalTSR %>건</span>
+														</div>
+													</div>
+													<div class="col-6 align-self-end text-end">
+														<img src="https://prium.github.io/falcon/v3.16.0/assets/img/icons/spot-illustrations/corner-1.png" width="500px" height="417px" alt="Searching" class="img-fluid illustration-img">
+													</div>
+												</div>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+								<div class="row d-lg-none d-xxl-flex">
+									<div class="col-sm-6 col-lg-12 col-xxl-6 d-flex">
+										<div class="card flex-fill">
+											<div class="card-body">
+												<div class="row">
+													<div class="col mt-0">
+														<h5 class="card-title">Sea</h5>
+													</div>
+
+													<div class="col-auto">
+														<div class="stat stat-sm">
+															<i class="align-middle" data-feather="compass"></i>
+														</div>
+													</div>
+												</div>
+												<span class="h1 d-inline-block mt-1 mb-4"><%= totalSEA %> 건</span>
+												<div class="mb-0">
+													<span class="badge badge-soft-success me-2"> +2.25% </span>
+													<span class="text-muted">Since last week</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-lg-12 col-xxl-6 d-flex">
+										<div class="card flex-fill">
+											<div class="card-body">
+												<div class="row">
+													<div class="col mt-0">
+														<h5 class="card-title">Air</h5>
+													</div>
+
+													<div class="col-auto">
+														<div class="stat stat-sm">
+															<i class="align-middle" data-feather="send"></i>
+														</div>
+													</div>
+												</div>
+												<span class="h1 d-inline-block mt-1 mb-4"><%= totalAIR %> 건</span>
+												<div class="mb-0">
+													<span class="badge badge-soft-danger me-2"> -1.25% </span>
+													<span class="text-muted">Since last week</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+                        <div class="col-lg-6 col-xl-7">
+							<div class="card flex-fill w-100">
+								<div class="card-header">
+									<div class="card-actions float-end">
+										<div class="dropdown position-relative">
+											<div class="dropdown-menu dropdown-menu-end">
+											</div>
+										</div>
+									</div>
+								<h5 class="card-title mb-0">진행지역(2023.6월)</h5>
+								</div>
+								<div class="card-body p-2">
+									<div id="world_map" style="height:279px;"></div>
+                                    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+<div class="row">
+						<div class="col-12 col-lg-4 d-flex">
+							<div class="card flex-fill w-100">
+								<div class="card-header">
+									<div class="card-actions float-end">
+										<div class="dropdown position-relative">
+											<a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+              <i class="align-middle" data-feather="more-horizontal"></i>
+            </a>
+
+											<div class="dropdown-menu dropdown-menu-end">
+												<a class="dropdown-item" href="#">Action</a>
+												<a class="dropdown-item" href="#">Another action</a>
+												<a class="dropdown-item" href="#">Something else here</a>
+											</div>
+										</div>
+									</div>
+<h5 class="card-title mb-0">Department 별</h5>
+</div>
+<table class="table table-striped my-0">
+    <thead>
+        <tr>
+            <th>Dept</th>
+            <th class="text-end">Shipment</th>
+            <th class="d-none d-xl-table-cell w-75">% 비중</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>RUS</td>
+            <td class="text-end"><%= totalDept['RUS'] %></td>
+            <td class="d-none d-xl-table-cell">
+                <div class="progress">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width:<%= (totalDept['RUS']/totalDeptItems*100).toFixed(0) %>%;" aria-valuenow="<%= (totalDept['RUS']/totalDeptItems*100).toFixed(0) %>" aria-valuemin="0" aria-valuemax="100"><%= (totalDept['RUS']/totalDeptItems*100).toFixed(0) %>%</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>CIS</td>
+            <td class="text-end"><%= totalDept['CIS'] %></td>
+            <td class="d-none d-xl-table-cell">
+                <div class="progress">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width:<%= totalDept['CIS']/totalDeptItems*100 %>% " aria-valuenow="<%= totalDept['CIS']/totalDeptItems*100 %>" aria-valuemin="0" aria-valuemax="100"><%= (totalDept['CIS']/totalDeptItems*100).toFixed(0) %>%</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>기타</td>
+            <td class="text-end"><%= totalDept['VEN'] %></td>
+            <td class="d-none d-xl-table-cell">
+                <div class="progress">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width:<%= totalDept['VEN']/totalDeptItems*100 %>% " aria-valuenow="<%= totalDept['VEN']/totalDeptItems*100 %>" aria-valuemin="0" aria-valuemax="100"><%= (totalDept['VEN']/totalDeptItems*100).toFixed(0) %>%</div>
+                </div>
+            </td>
+        </tr>
+          <tr>
+            <td>MCI</td>
+            <td class="text-end"><%= totalDept['VEN1'] %></td>
+            <td class="d-none d-xl-table-cell">
+                <div class="progress">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width:<%= totalDept['VEN1']/totalDeptItems*100 %>%" aria-valuenow="<%= totalDept['VEN1']/totalDeptItems*100 %>" aria-valuemin="0" aria-valuemax="100"><%= (totalDept['VEN1']/totalDeptItems*100).toFixed(0) %>%</div>
+                </div>
+            </td>
+        </tr>
+                  <tr>
+            <td>AGT</td>
+            <td class="text-end"><%= totalDept['VEN3'] %></td>
+            <td class="d-none d-xl-table-cell">
+                <div class="progress">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width:<%= totalDept['VEN3']/totalDeptItems*100 %>%" aria-valuenow="<%= totalDept['VEN3']/totalDeptItems*100 %>" aria-valuemin="0" aria-valuemax="100"><%= (totalDept['VEN3']/totalDeptItems*100).toFixed(0) %>%</div>
+                </div>
+            </td>
+        </tr>
+                  <tr>
+            <td>TOTAL</td>
+            <td class="text-end"><%= totalDeptItems %></td>
+        </tr>
+
+    </tbody>
+</table>
+</div>
+</div>
+    
+    <div class="col-12 col-lg-4 d-flex">
+							<div class="card flex-fill w-100">
+								<div class="card-header">
+									<div class="card-actions float-end">
+										<div class="dropdown position-relative">
+											<a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+              <i class="align-middle" data-feather="more-horizontal"></i>
+            </a>
+
+											<div class="dropdown-menu dropdown-menu-end">
+												<a class="dropdown-item" href="#">Action</a>
+												<a class="dropdown-item" href="#">Another action</a>
+												<a class="dropdown-item" href="#">Something else here</a>
+											</div>
+										</div>
+									</div>
+									<h5 class="card-title mb-0">도착지별</h5>
+								</div>
+								<div class="card-body d-flex w-100">
+									<div class="align-self-center chart">
+										<canvas id="destchart"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+    <div class="col-12 col-lg-4 d-flex">
+							<div class="card flex-fill">
+								<div class="card-header">
+									<div class="card-actions float-end">
+										<div class="dropdown position-relative">
+											<a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+              <i class="align-middle" data-feather="more-horizontal"></i>
+            </a>
+
+											<div class="dropdown-menu dropdown-menu-end">
+												<a class="dropdown-item" href="#">Action</a>
+												<a class="dropdown-item" href="#">Another action</a>
+												<a class="dropdown-item" href="#">Something else here</a>
+											</div>
+										</div>
+									</div>
+									<h5 class="card-title mb-0">Interests</h5>
+								</div>
+								<div class="card-body">
+									<div class="chart">
+										<canvas id="pfChart"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+<div class="row">
+						<div class="col-12 col-lg-5 col-xl-4 d-flex">
+							<div class="card flex-fill w-100">
+								<div class="card-header">
+									<div class="card-actions float-end">
+										<div class="dropdown position-relative">
+											<a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+              <i class="align-middle" data-feather="more-horizontal"></i>
+            </a>
+
+											<div class="dropdown-menu dropdown-menu-end">
+												<a class="dropdown-item" href="#">Action</a>
+												<a class="dropdown-item" href="#">Another action</a>
+												<a class="dropdown-item" href="#">Something else here</a>
+											</div>
+										</div>
+									</div>
+            <h5 class="card-title mb-0">ITEM별</h5>
+                                </div>
+            <div class="card-body d-flex">
+            <div class="align-self-center w-100">
+                <div class="py-3">
+                    <div class="chart chart-xs">
+                        <canvas id="deptChart"></canvas>
+						</div>
+								</div>
+                <table class="table mb-0">
+											<thead>
+												<tr>
+													<th>Item</th>
+													<th class="text-center">Shipment</th>
+												</tr>
+											</thead>
+											<tbody>
+                                                <% for(let i=0; i<sortedItems.length; i++) { %>
+                                                    <tr>
+                                                        <td><%= sortedItems[i][0] %></td>
+                                                        <td class="text-center"><%= sortedItems[i][1] %></td>
+                                                    </tr>
+                                                <% } %>
+                                            </tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+    
+     <div class="col-12 col-lg-7 col-xl-8 d-flex">
+							<div class="card flex-fill">
+								<div class="card-header">
+									<div class="card-actions float-end">
+										<div class="dropdown position-relative">
+											<a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+              <i class="align-middle" data-feather="more-horizontal"></i>
+            </a>
+
+											<div class="dropdown-menu dropdown-menu-end">
+												<a class="dropdown-item" href="#">Action</a>
+												<a class="dropdown-item" href="#">Another action</a>
+												<a class="dropdown-item" href="#">Something else here</a>
+											</div>
+										</div>
+									</div>
+									<h5 class="card-title mb-0">Customer</h5>
+								</div>
+								<table id="datatables-dashboard-traffic" class="table table-striped my-0">
+									<thead>
+										<tr>
+											<th></th>
+											<th class="text-end">Customer</th>
+											<th class="d-none d-xl-table-cell text-end">TEU</th>
+											<th class="d-none d-xl-table-cell text-end">R.Ton</th>
+											<th class="d-none d-xl-table-cell text-end">Profit</th>
+										</tr>
+									</thead>
+									<tbody>
+                                        <% for(let i=0; i<sortedCustomerData.length; i++) { %>
+										<tr>
+											<td><%= sortedCustomerData[i].Customer_Name %></td>
+											<td class="text-center"><%= sortedCustomerData[i].TEU_Sum %></td>
+											<td class="d-none d-xl-table-cell text-end"><%= sortedCustomerData[i].TEU_Sum %></td>
+											<td class="d-none d-xl-table-cell text-end"><%= sortedCustomerData[i].RTON_Sum %></td>
+											<td class="d-none d-xl-table-cell text-end text-success"><%= sortedCustomerData[i].ProfitTotal_Sum %></td>
+										</tr>
+                                            <% } %>
+									</tbody>
+								</table>
+							</div>
+    </div>
+    </div>
+			
+
+    </div>
+
+				</div>
+			</main>
+        
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row text-muted">
+						<div class="col-6 text-start">
+							<ul class="list-inline">
+								<li class="list-inline-item">
+									<a class="text-muted" href="#">Support</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="#">Help Center</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="#">Privacy</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="#">Terms of Service</a>
+								</li>
+							</ul>
+						</div>
+						<div class="col-6 text-end">
+							<p class="mb-0">
+								&copy; 2023 - <a href="index.html" class="text-muted">MTLab.</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</footer>
+
+        
+<script src="https://appstack.bootlab.io/js/app.js"></script>
+
+<script>
+     const ctx = document.getElementById('deptChart').getContext('2d');
+     const labels = [<% for(let i=0; i<sortedItems.length; i++) { %>"<%= sortedItems[i][0] %>", <% } %>];
+     const data = [<% for(let i=0; i<sortedItems.length; i++) { %><%= sortedItems[i][1] %>, <% } %>];
+    
+    const deptChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: data,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 5,
+            borderColor: window.theme.white
+        }]
+    },
+    options: {
+        responsive: !window.MSInputMethodContext,
+        cutoutPercentage: 70,
+    }
+});
+
+if (!labels || !data) {
+    console.log("No data for deptChart");
+}
+
+</script>
+<script>
+    const ctx1 = document.getElementById('destchart').getContext('2d');
+
+    const destlabels = [<% for(let item in totalF_DEST) { %>"<%= item %>", <% } %>];
+    const destdata = [<% for(let item in totalF_DEST) { %><%= totalF_DEST[item] %>, <% } %>];
+
+    const destchart = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: destlabels,
+            datasets: [{
+                label: 'Shipment',
+                data: destdata,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+<script>
+    const ctx2 = document.getElementById('pfChart').getContext('2d');
+    const pfChart = new Chart(ctx2, {
+        type: 'horizontalBar',
+        data: {
+            labels: [<% for(let item in totalpfF_DEST) { %>"<%= item %>", <% } %>],
+            datasets: [{
+                label: 'Profit',
+                data: [<% for(let item in totalpfF_DEST) { %><%= totalpfF_DEST[item] %>, <% } %>],
+                backgroundColor: window.theme.primary,
+                borderColor: window.theme.primary,
+                borderWidth: 0.5
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			$("#datatables-dashboard-traffic").DataTable({
+				pageLength: 8,
+				lengthChange: false,
+				bFilter: false,
+				autoWidth: false,
+				order: [
+					[1, "desc"]
+				]
+			});
+		});
+	</script>
+<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			var markers = [{
+					coords: [31.230391, 121.473701],
+					name: "Shanghai"
+				},
+				{
+					coords: [43.133333, 131.89999999999998],
+					name: "Vladivostok"
+				},
+				{
+					coords: [19.113809,  -104.338462],
+					name: "Manzanillio"
+				},
+				{
+					coords: [43.238949, 76.889709],
+					name: "Almaty"
+				},
+				{
+					coords: [39.343357, 117.361649],
+					name: "Tianjin"
+				},
+				{
+					coords: [41.311081, 69.240562],
+					name: "Tashkent"
+				},
+				{
+					coords: [41.008240, 28.978359],
+					name: "Istanbul"
+				},
+				{
+					coords: [35.689487, 139.691711],
+					name: "Tokyo"
+				},
+				{
+					coords: [23.129110, 113.264381],
+					name: "Guangzhou"
+				},
+				{
+					coords: [45.54694, 13.72944],
+					name: "Koper"
+				},
+				{
+					coords: [52.237049, 21.017532],
+					name: "Warsaw"
+				},
+				{
+					coords: [34.052235, -118.243683],
+					name: "Los Angeles"
+				},
+
+				{
+					coords: [29.760427, -95.369804],
+					name: "Houston"
+				},
+
+
+				{
+					coords: [48.856613, 2.352222],
+					name: "Paris"
+				},
+				{
+					coords: [55.755825, 37.617298],
+					name: "Moscow"
+				},
+
+			];
+			var map = new jsVectorMap({
+				map: "world",
+				selector: "#world_map",
+				zoomButtons: true,
+				markers: markers,
+				markerStyle: {
+					initial: {
+						r: 9,
+						stroke: window.theme.white,
+						strokeWidth: 7,
+						stokeOpacity: .4,
+						fill: window.theme.primary
+					},
+					hover: {
+						fill: window.theme.primary,
+						stroke: window.theme.primary
+					}
+				},
+				regionStyle: {
+					initial: {
+						fill: window.theme["gray-200"]
+					}
+				},
+				zoomOnScroll: false
+			});
+			window.addEventListener("resize", () => {
+				map.updateSize();
+			});
+			setTimeout(function() {
+				map.updateSize();
+			}, 250);
+		});
+	</script>
+
+
+</body>
+</html>

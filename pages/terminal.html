@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Data Table</title>
+    <head>
+      <script
+        type="text/javascript"
+        src="https://code.jquery.com/jquery-3.5.1.js"
+      ></script>
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css"
+      />
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css"
+      />
+
+      <script
+        type="text/javascript"
+        src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"
+      ></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    </head>
+  <body>
+    <select id="port-filter">
+      <option value="">All Ports</option>
+      <option value="Busan">Busan</option>
+      <option value="New Busan">New Busan</option>
+      <option value="Incheon">Incheon</option>
+      <option value="Daesan/Seosan">Daesan/Seosan</option>
+      <option value="Kwangyang">Kwangyang</option>
+      <option value="Pyeongtaek">Pyeongtaek</option>
+      <option value="Ulsan">Ulsan</option>
+    </select>
+    <table id="data-table" border="1" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Dimensions</th>
+          <th>Vessel</th>
+          <th>MMSI</th>
+          <th>Contents</th>
+          <th>Status</th>
+          <th>Cut-off(closed)</th>
+          <th>Arrive(ETA)</th>
+          <th>Depart(ETD)</th>
+          <th>Liner</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <script src="js/berth.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $("#data-table").dataTable({
+          pagingType: "scrolling",
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>컨테이너 터미널 스케줄</title>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <table id="terminalTable" data-rows="<%= JSON.stringify(rows) %>">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Dimensions</th>
+          <th>선명</th>
+          <th>MMSI</th>
+          <th>Contents</th>
+          <th>Status</th>
+          <th>Cut-off(closed)</th>
+          <th>Picture(ETA)</th>
+          <th>출항(ETD)</th>
+          <th>Language</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Initial rows will be inserted by JavaScript -->
+      </tbody>
+    </table>
+    <button id="loadMore">Load More</button>
+
+    <script>
+      var rows = JSON.parse(
+        document.querySelector("#terminalTable").dataset.rows
+      );
+      var currentIndex = 0;
+
+      function renderRows(start, count) {
+        var tableBody = document.querySelector("#terminalTable tbody");
+        for (var i = start; i < start + count && i < rows.length; i++) {
+          var row = rows[i];
+          var rowHTML = `<tr>
+                  <td>${row.port}</td>
+                  <td>${row.dimensions}</td>
+                  <td>${row.선명}</td>
+                  <td>${row.MMSI}</td>
+                  <td>${row.contents}</td>
+                  <td>${row.status}</td>
+                  <td>${row.cutOff}</td>
+                  <td>${row.picture}</td>
+                  <td>${row.출항}</td>
+                  <td>${row.language}</td>
+              </tr>`;
+          tableBody.insertAdjacentHTML("beforeend", rowHTML);
+        }
+        currentIndex = i;
+      }
+
+      document
+        .querySelector("#loadMore")
+        .addEventListener("click", function () {
+          renderRows(currentIndex, 20);
+        });
+
+      // initial render of the first 20 rows
+      window.onload = function () {
+        renderRows(0, 20);
+      };
+    </script>
+  </body>
+</html>

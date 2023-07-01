@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tracking</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/track.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css' rel='stylesheet' />
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+      <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+    <style>
+      #map {
+        height: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <article class="card">
+        <header class="card-header">Shipping Orders / Tracking</header>
+        <div class="card-body">
+          <h6>Inquiry #: <%= item.iqr %></h6>
+          <article class="card">
+            <div class="card-body row">
+              <div class="col">
+                <strong>Estimated Delivery time:</strong> <br /><%= item.eta3 %>
+              </div>
+              <div class="col">
+                <strong>Shipping BY:</strong> <br />
+                <%= item.mode %> |  <%= item.type %>
+              </div>
+              <div class="col">
+                <strong>POL:</strong> <br />
+                <%= item.pol %>
+              </div>
+              <div class="col">
+                <strong>POD</strong> <br />
+                <%= item.pod %>
+              </div>
+            </div>
+          </article>
+          <div id="map"></div>
+          <hr />
+
+          <article class="card">
+            <div class="card-body row">
+              <div class="col">
+                <strong>Origin:</strong> <br />ETD: <%= item.etd1 %> <br />ATD:
+                <%= item.atd1 %>
+              </div>
+              <div class="col">
+                <strong>Border:</strong> <br />
+                ETA: <%= item.eta2 %> <br />ATA: <%= item.ata2 %>
+              </div>
+              <div class="col">
+                <strong>Border:</strong> <br />
+                ETD: <%= item.etd2 %><br />
+                ATD: <%= item.atd2 %>
+              </div>
+              <div class="col">
+                <strong>Station</strong> <br />
+                ETA: <%= item.eta3 %><br />
+                ATA: <%= item.ata3 %>
+              </div>
+            </div>
+          </article>
+
+          <hr />
+          <a href="/quote" class="btn btn-warning" data-abc="true">
+            <i class="fa fa-chevron-left"></i> Back to List</a
+          >
+        </div>
+      </article>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+      var map = L.map("map").setView([0, 0], 2);
+      var markers = [];
+      var group = new L.featureGroup();
+
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+        {
+          attribution:
+            'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+          maxZoom: 10,
+        }
+      ).addTo(map);
+
+      // Define your custom markers
+      var redIcon = L.icon({
+        iconUrl: "../../icons/marker/truck.png",
+        iconSize: [35, 35], // size of the icon
+        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+        popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+      });
+
+      var blueIcon = L.icon({
+        iconUrl: "../../icons/marker/desred.png",
+         iconSize: [35, 35], // size of the icon
+        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+        popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+      });
+
+      function geocodeAddress(location, icon) {
+        var url = `https://nominatim.openstreetmap.org/search?format=json&q=${location}`;
+        return fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.length > 0) {
+              var lat = data[0].lat;
+              var lon = data[0].lon;
+
+              var marker = L.marker([lat, lon], { icon: icon }).addTo(map);
+              markers.push(marker);
+
+              // add marker to the group
+              group.addLayer(marker);
+
+              // Return the LatLng for this location
+              return L.latLng(lat, lon);
+            } else {
+              console.log("Unable to geocode the specified location.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      // Execute when the page loads
+      window.onload = function () {
+        var loc1Promise = geocodeAddress("<%= item.current %>", redIcon);
+        var loc2Promise = geocodeAddress("<%= item.pod %>", blueIcon);
+
+        Promise.all([loc1Promise, loc2Promise]).then(([loc1, loc2]) => {
+          var distance = loc1.distanceTo(loc2);
+          // Create a popup on the map
+          var popup = L.popup()
+            .setLatLng([loc2.lat, loc2.lng]) // setting the geographic coordinates where the popup will be anchored
+            .setContent(
+              `${(
+                distance / 1000
+              ).toFixed(2)} km left till Final Destination`
+            )
+            .openOn(map); // this will automatically open the popup, and pan the map view so that the popup is centered
+
+          // fit the map to the group bounds
+          map.fitBounds(group.getBounds());
+
+          // center the map to blue marker
+          map.setView(loc1, 5);
+        });
+      };
+    </script>
+    <script src="/js/bundlebase.js"></script>
+  </body>
+</html>

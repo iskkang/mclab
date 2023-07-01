@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Seaport Data</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://themes.getbootstrap.com/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp"></script>
+    <script src="https://themes.getbootstrap.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
+    <script src="https://prium.github.io/falcon/v3.14.0/vendors/bootstrap/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&display=swap" />
+    <style>
+      th {
+          text-align: center;
+      }
+  </style>
+  </head>
+  <body>
+       <div class="container-scroller">
+      <%- include('../partials/navbar') %>
+      <div class="container-fluid page-body-wrapper">
+           <%- include('../partials/sidebar') %>
+        <div class="container">
+          <div class="col-12">
+            <br />
+            <h2 class="card-title">항구별 무역 순위(컨테이너)</h2>
+            <br />
+            <a href="/" button class="btn btn-sm btn-secondary">Home</a>
+            <hr />
+          </div>
+    <ul>
+      <div id="tableExample2" data-list='{"valueNames":["Name","rank"],"page":5, "pagination"::true}'>
+        <div class="table-responsive scrollbar">
+          <table class="table table-bordered table-striped fs--1 mb-0">
+            <thead class="bg-200 text-900">
+          <tr>
+            <th class="sort" data-sort="name"><p>포트명</p></th>
+            <th>지역</th>
+            <th class="sort" data-sort="rank">순위</th>
+            <th>입항 Vol. (TEU)</th>
+            <th>출항 Vol. (TEU)</th>
+            <th>T/S Cargo(%)</th>
+            <th>입출항 회기일 </th>
+            <th>입항 대기일</th>
+            <th>출항 대기일</th>
+            <th>다음주 입항선박</th>
+          </tr>
+        </thead>
+        <tbody class="list">
+          <% data.forEach(function(item) { %>
+          <tr>
+            <td class="name"><a href="/seaports/<%= item.locode %>/<%= item.name %>"><%= item.name %></a></td>
+            <td><%= item.locode %></td>
+            <td class="rank"><%= item.rank %></td>
+            <td><%= Number(item.last_import_teu).toLocaleString() %></td>
+            <td><%= Number(item.last_export_teu).toLocaleString() %></td>
+            <td><%= item.transshipments %>%</td>
+            <td><%= item.turnaround ? item.turnaround.value : "" %></td>
+            <td>
+              <%= item.import_dwell_time ? item.import_dwell_time.value : "" %>
+            </td>
+            <td>
+              <%= item.export_dwell_time ? item.export_dwell_time.value : "" %>
+            </td>
+            <td><%= item.schedule ? item.schedule.value : "" %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <% if (currentPage > 1) { %>
+      <a href="/seaports?page=<%= currentPage - 1 %>">Previous</a>
+      <% } %> <% if (currentPage < numPages) { %>
+      <a href="/seaports?page=<%= currentPage + 1 %>">Next</a>
+      <% } %>
+    </ul>
+  </body>
+</html>

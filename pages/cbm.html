@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<div>LCL 계산</div>
+</div>
+<div style="margin-top:10px">
+<div class="clearfix" style="height:3px"></div>
+
+<div class='cbm_table_wrap'>
+<table id="tbl_cal_cbm" class="cbm_table1" width="100%" cellpadding="5" cellspacing="0">
+	<tr>
+		<th class="border_bottom ">단위</th>
+		<td colspan="3" class="border_bottom unit_select">
+			<label for="unit1" style="padding: 0 10px;">
+    			<input type="radio" name="unit" id="unit1" value="1" checked onClick="onlyNum(this);this.value=this.value.comma();chgSum()" size="8"  /> ㎜
+    		</label>
+    		<label for="unit2" style="padding: 0 10px;">
+    			<input type="radio" name="unit" id="unit2" value="2" onClick="onlyNum(this);this.value=this.value.comma();chgSum()"/> cm
+    		</label>
+    		<label for="unit3" style="padding: 0 10px;">
+    			<input type="radio" name="unit" id="unit3" value="3" onClick="onlyNum(this);this.value=this.value.comma();chgSum()"/> m
+    		</label>
+			<a href="#" id="getCalc" class="btn_refrash" style="display:none">계산하기</a>
+		</td>
+	</tr>
+	<tr>
+		<th class="">길이</th>
+		<td class="color_gray" >LENGTH</td>
+		<td class="unit_inout">
+			<input type="hidden" name="hdn_length_str" id="hdn_length_str" >
+			<input type="number" name="length_str" id="length_str" class="str_style" onKeyUp="onlyNum(this);chgSum()" onChange="onlyNum(this);chgSum()" size="8"   placeholder="길이(Length)" />
+		</td>
+		<td id="unit_length_str" class="unit">㎜</td>
+	</tr>
+	<tr>
+		<th class="" >폭</th>
+		<td class="color_gray" >WIDTH</td>
+		<td class="unit_inout" >
+			<input type="hidden" name="hdn_width_str" id="hdn_width_str" >
+			<input type="number" name="width_str" id="width_str" class="str_style" onKeyUp="onlyNum(this);chgSum()" onChange="onlyNum(this);chgSum()" size="8"   placeholder="폭(Width)" />
+		</td>
+		<td id="unit_width_str" class="unit" >㎜</td>
+	</tr>
+	<tr>
+		<th class="border_bottom " >높이</th>
+		<td class="border_bottom color_gray" >HEIGHT</td>
+		<td class="border_bottom unit_inout">
+			<input type="hidden" name="hdn_height_str" id="hdn_height_str" >
+			<input type="number" name="height_str" id="height_str" class="str_style" onKeyUp="onlyNum(this);chgSum()" onChange="onlyNum(this);chgSum()" size="8"   placeholder="높이(Height)" />
+		</td>
+		<td id="unit_height_str" class="border_bottom  unit">㎜</td>
+		<td></td>
+	</tr>
+	<tr>
+		<th class="">개수</th>
+		<td class="color_gray" >QUANTITY</td>
+		<td class="unit_inout">
+			<input type="hidden" name="hdn_quantity_str" id="hdn_quantity_str" >
+			<input type="number" name="quantity_str" value="1" id="quantity_str" class="str_style" onKeyUp="onlyNum(this);chgSum()" size="8"   placeholder="개수(Quantity)" />
+		</td>
+		<td class="">EA</td>
+	</tr>
+</table>
+</div>
+
+<div class="cbm_table_wrap" style="float:right">
+<table id="tbl_cal_cbm" class="cbm_table2" width="100%" cellpadding="0" cellspacing="0">
+	<tr>
+		<th class="">결과값</th>
+		<td class="result_1 result_field">
+			<input type="text" name="result_1" id="result_1" class="result" readonly style="width:180px">
+		</td>
+		<td class="result_unit">CBM</td>
+	</tr>
+	<tr>
+		<th class="border_bottom ">부피중량(항공화물)</th>
+		<td class="border_bottom  result_2 result_field">
+			<input type="text" name="result_2" id="result_2" class="result" readonly style="width:180px">
+		</td>
+		<td class="border_bottom result_unit">KG</td>
+	</tr>
+	<tr>
+		<th class="">20FT 적입가능 수량</th>
+		<td class="result_3 result_field">
+			<input type="text" name="result_3" id="result_3" class="result" readonly style="width:180px">
+		</td>
+		<td class="result_unit">EA</td>
+	</tr>
+	<tr>
+		<th class="">40FT 적입가능 수량</th>
+		<td class="result_4 result_field">
+			<input type="text" name="result_4" id="result_4" class="result" readonly style="width:180px">
+		</td>
+		<td class="result_unit">EA</td>
+	</tr>
+	<tr>
+		<th class="">40HC 적입가능 수량</th>
+		<td class="result_5 result_field">
+			<input type="text" name="result_5" id="result_5" class="result" readonly style="width:180px">
+		</td>
+		<td class="result_unit">EA</td>
+	</tr>
+</table>
+	<span style="color:#F90206; display:block; padding:10px 0 5px;">※ 화물특성 및 포장상태에 따라 적입수량 차이가 날 수 있음.<br />※ 적입가능 수량은 화물1개에 대한 예상값</span>
+
+
+	
+</div>
+
+    
+</body>
+</html>

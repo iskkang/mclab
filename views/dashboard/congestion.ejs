@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+        />
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+        <script src="https://api.windy.com/assets/map-forecast/libBoot.js"></script>
+        <link href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+        <link class="js-stylesheet" href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+        <script src="https://appstack.bootlab.io/js/app.js"></script>
+
+    </head>
+    <body>
+         <%- include('./sidebar') %>
+
+          <div class="overlay--button button--close" id="port-intel-explore-map"></div>
+          <iframe
+            src="https://port-intel-na.voc.project44.com/"
+            width="100%"
+            height="800px"
+            frameborder="0"
+            style="border: 0"
+            scrolling="no"
+            id="port-intel"></iframe>
+          <div id="loader-container">
+            <div class="animation-container button--close"></div>
+          </div>
+ 
+    </body>
+</html>

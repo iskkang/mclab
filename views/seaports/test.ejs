@@ -1,0 +1,484 @@
+<html>
+   <head>
+      <title><%= data.meta.name %> Port</title>
+      <style>
+         th,td
+          { 
+               display: table-cell;
+
+  vertical-align: inherit;
+              text-align: center;
+          }
+      </style>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+      <link rel="canonical" href="./dashboard.html" />
+	  <link rel="shortcut icon" href="img/favicon.ico">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+	  <link href="https://fonts.googleapis.com/css2?family=Noto Sans:wght@300;400;500&display=swap" rel="stylesheet">
+      <link href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+      <link class="js-stylesheet" href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+       
+   </head>
+    
+    <body data-theme="default" data-layout="fluid">
+
+	<div class="wrapper">
+			<main class="content">
+				<div class="container-fluid p-0">
+					<div class="row mb-2 mb-xl-3">
+						<div class="col-auto d-none d-sm-block">
+                            <h3>Port Status </h3>
+                           
+						</div>
+						<div class="col-auto ms-auto text-end mt-n1">
+							<div class="dropdown me-2 d-inline-block position-relative">
+								<div class="dropdown-menu dropdown-menu-end">
+								</div>
+                                 <a href="/seaports" button class="btn btn-info btn-lg">List</a>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-xl-5 d-flex">
+							<div class="w-100">
+
+								<div class="row">
+									<div class="col-sm-6 col-lg-12 col-xxl-6 d-flex">
+										<div class="card illustration flex-fill">
+											<div class="card-body p-0 d-flex flex-fill">
+												<div class="row g-0 w-100">
+													<div class="col-6">
+														<div class="illustration-text p-3 m-1">
+															<h4 class="illustration-text">Export</h4>
+															<span class="h1 d-inline-block mt-1 mb-4"><%= data.composition[0].value %>%</span>
+														</div>
+													</div>
+                                                    <div class="col-6 align-self-end text-end">
+														<img src="https://appstack.bootlab.io/img/illustrations/searching.png" alt="Searching" class="img-fluid illustration-img">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+                                    <div class="col-sm-6 col-lg-12 col-xxl-6 d-flex">
+										<div class="card flex-fill">
+											<div class="card-body">
+												<div class="row">
+													<div class="col mt-0">
+														<h5 class="card-title">Imports</h5>
+													</div>
+                                                    <div class="col-auto">
+														<div class="stat stat-sm">
+															<i class="align-middle" data-feather="arrow-up-right"></i>
+														</div>
+													</div>
+												</div>
+												<span class="h1 d-inline-block mt-1 mb-4"><%= data.composition[1].value %>%</span>
+												<div class="mb-0">
+													<span class="badge badge-soft-success me-2"> +3.65% </span>
+													<span class="text-muted">Since last week</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+                                <div class="row d-lg-none d-xxl-flex">
+									<div class="col-sm-6 col-lg-12 col-xxl-6 d-flex">
+										<div class="card flex-fill">
+											<div class="card-body">
+												<div class="row">
+													<div class="col mt-0">
+														<h5 class="card-title">Transshipments</h5>
+													</div>
+
+													<div class="col-auto">
+														<div class="stat stat-sm">
+															<i class="align-middle" data-feather="clock"></i>
+														</div>
+													</div>
+												</div>
+												<span class="h1 d-inline-block mt-1 mb-4"><%= data.composition[2].value != null ? data.composition[2].value : "N/A" %>%</span>
+												<div class="mb-0">
+													<span class="badge badge-soft-success me-2"> +2.25% </span>
+													<span class="text-muted">Since last week</span>
+												</div>
+											</div>
+										</div>
+									</div>
+                                    	<div class="col-sm-6 col-lg-12 col-xxl-6 d-flex">
+										<div class="card flex-fill">
+											<div class="card-body">
+												<div class="row">
+													<div class="col mt-0">
+														<h5 class="card-title">Handling fee Export</h5>
+													</div>
+
+													<div class="col-auto">
+														<div class="stat stat-sm">
+															<i class="align-middle" data-feather="users"></i>
+														</div>
+													</div>
+												</div>
+												<span class="h1 d-inline-block mt-1 mb-4">
+    <%= data.composition && data.composition[5] ? data.composition[5].value : "N/A" %>
+</span>
+												<div class="mb-0">
+													<span class="badge badge-soft-danger me-2"> -1.25% </span>
+													<span class="text-muted">Since last week</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+                        	<div class="col-lg-6 col-xl-7">
+							<div class="card flex-fill w-100">
+								<div class="card-header">
+									<div class="card-actions float-end">
+										<div class="dropdown position-relative">
+											<a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+              <i class="align-middle" data-feather="more-horizontal"></i>
+            </a>
+
+											<div class="dropdown-menu dropdown-menu-end">
+												<a class="dropdown-item" href="#">Action</a>
+												<a class="dropdown-item" href="#">Another action</a>
+												<a class="dropdown-item" href="#">Something else here</a>
+											</div>
+										</div>
+									</div>
+									<h5 class="card-title mb-0"><%= data.meta.name %> Port <%= data.meta.locode %></h5>
+                                     <span class="text-muted">Global Trade: <%= data.meta.global_trade %>%  Rank: No.<%= data.meta.rank %> </span>
+								</div>
+								<div class="card-body p-2">
+									<div id="mapid" style="height:279px;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+                    					<div class="row">
+						<div class="col-12 col-lg-4 d-flex">
+							<div class="card flex-fill w-100">
+								<div class="card-header">
+									<div class="card-actions float-end">
+										<div class="dropdown position-relative">
+                                                <div class="dropdown-menu dropdown-menu-end">
+    </div>
+</div>
+</div>
+<h5 class="card-title mb-0">Outbound traffic </h5>
+</div>
+<table class="table table-striped my-0">
+<thead>
+<tr>
+          <th class="text-center">Name</th>
+          <th class="text-center">Locode</th>
+          <th class="text-center">Volume, TEU</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.top_partners.destination.forEach((item) => { %>
+        <tr>
+          <td><%= item.name %></td>
+          <td><%= item.locode %></td>
+          <td><%= item.volume.toLocaleString() %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    </div>
+                                            </div>
+                                            
+<div class="col-12 col-lg-4 d-flex">
+							<div class="card flex-fill w-100">
+								<div class="card-header">
+									<div class="card-actions float-end">
+										<div class="dropdown position-relative">
+ <div class="dropdown-menu dropdown-menu-end">
+    </div>
+</div>
+</div>
+<h5 class="card-title mb-0">Inbound traffic </h5>
+</div>
+<table class="table table-striped my-0">
+<thead>
+                            <tr>
+                               <th class="text-center">Name</th>
+                               <th class="text-center">Locode</th>
+                               <th class="text-center">Volume, TEU</th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                            <% data.top_partners.origin.forEach((item) => { %>
+                            <tr>
+                               <td><%= item.name %></td>
+                               <td><%= item.locode %></td>
+                               <td><%= item.volume.toLocaleString() %></td>
+                            </tr>
+                            <% }) %>
+                         </tbody>
+                      </table>
+    </div>
+</div>
+
+<div class="col-12 col-lg-4 d-flex">
+<div class="card flex-fill w-100">
+<div class="card-header">
+<div class="card-actions float-end">
+<div class="dropdown position-relative">
+</div>
+</div>
+                
+<h5 class="card-title mb-0">Rate</h5>
+</div>
+<div style="width:100%; height:600px; overflow:auto; text-align: center;">
+<table class="table table-striped my-0">
+<thead>
+  <tr>
+          <th class="text-center">Origin</th>
+          <th class="text-center">Destination</th>
+          <th class="text-center">Rate (USD)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.freight_rates.forEach((item) => { %>
+        <tr>
+          <td><%= item.origin %></td>
+          <td><%= item.destination %></td>
+          <td><%= item.Rate.toLocaleString() %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    </div>
+    </div>
+</div>
+                                            
+                                            
+<div class="row">
+<div class="col-12 col-lg-4 d-flex">
+<div class="card flex-fill w-100">
+    <div class="card-header">
+        <div class="card-actions float-end">
+            <div class="dropdown position-relative">
+                <a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+<i class="align-middle" data-feather="more-horizontal"></i>
+</a>
+<div class="dropdown-menu dropdown-menu-end">
+</div>
+</div>
+</div>                                   
+<h5 class="card-title mb-0">Termianl status (Statistics for last 30 days) </h5>
+</div>
+<table class="table table-striped my-0">
+<thead>
+      <thead>
+        <tr>
+          <th>Terminal</th>
+          <th class="d-none d-xl-table-cell text-end">Dwell Imports</th>
+          <th class="d-none d-xl-table-cell text-end">Dwell Exports</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.terminals.forEach((item) => { %>
+        <tr>
+          <td><%= item.name %></td>
+          <td><%= item['Dwell imports'] %></td>
+          <td><%= item['Dwell exports'] %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    </div>
+</div>
+    
+    <div class="col-12 col-lg-4 d-flex">
+    <div class="card flex-fill w-100">
+        <div class="card-header">
+            <div class="card-actions float-end">
+                <div class="dropdown position-relative">
+ <div class="dropdown-menu dropdown-menu-end">
+    </div>
+</div>
+</div>
+<h5 class="card-title mb-0">Liner Volume</h5>
+</div>
+<table class="table table-striped my-0">
+     <thead>
+        <tr>
+          <th class="text-center">Line</th>
+          <th class="text-center">Exports</th>
+          <th class="text-center">Imports</th>
+          <th class="text-center">Capacity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.op_tp.forEach((item) => { %>
+        <tr>
+          <td><%= item.Operator %></td>
+          <td><%= item.exports.toLocaleString() %></td>
+          <td><%= item.imports.toLocaleString() %></td>
+          <td><%= item.capacity.toLocaleString() %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    </div>
+</div>
+    
+<div class="col-12 col-lg-4 d-flex">
+<div class="card flex-fill w-100">
+<div class="card-header">
+    <div class="card-actions float-end">
+        <div class="dropdown position-relative">
+<div class="dropdown-menu dropdown-menu-end">
+</div>
+</div>
+</div>
+<h5 class="card-title mb-0">Delay</h5>
+</div>
+<table class="table table-striped my-0">
+<thead>
+<tr>
+  <th class="text-center">Reason</th>
+  <th class="text-center">Last Week</th>
+  <th class="text-center">Last Quarter</th>
+</tr>
+</thead>
+<tbody>
+<% data.delay_stats.forEach((item) => { %>
+<tr>
+  <td><%= item["Cause of delays (%)"] %></td>
+  <td><%= parseFloat(item["Last Week"]).toFixed(1) %>(%)</td>
+  <td class="d-none d-xl-table-cell text-end text-danger"><%= parseFloat(item["Last Quarter"]).toFixed(1) %>(%)</td>
+</tr>
+<% }) %>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="col-12 col-lg-7 col-xl-12 d-flex">
+<div class="card flex-fill">
+    <div class="card-header">
+        <div class="card-actions float-end">
+            <div class="dropdown position-relative">
+                <div class="dropdown-menu dropdown-menu-end">
+                </div>
+            </div>
+        </div>
+        <h5 class="card-title mb-0">Schedule</h5>
+    </div>
+    <div style="width:100%; height:400px; overflow:auto; text-align: center;">
+      <table id="datatables-dashboard-traffic" class="table table-striped my-0">
+                            <thead>
+                                <tr>
+                         <th class="text-center">TEU</th>
+                         <th class="text-center">Name</th>
+                         <th class="text-center">Next Stop</th>
+                         <th class="text-center">Next ETA</th>
+                         <th class="text-center">Start Date</th>
+                         <th class="text-center">End Date</th>
+                         <th class="text-center">Delay</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <% data.schedules.forEach((item) => { %>
+                      <tr>
+                         <td><%= item.teu %></td>
+                         <td><%= item.name %></td>
+                         <td><%= item.next_stop %></td>
+                         <td><%= item.next_eta %></td>
+                         <td><%= item.start_date %></td>
+                         <td><%= item.end_date %></td>
+                         <td><%= item.delay_text %></td>
+                      </tr>
+                      <% }) %>
+                   </tbody>
+                  </table>
+    </div>
+                </div>
+              </div>
+
+       
+     
+    <script>
+      var seaportData = <%- JSON.stringify(data) %>;
+      var centerCoords = seaportData.meta.coord.split(",").map(Number);
+      var map = L.map("mapid").setView(centerCoords, 8);
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+        maxZoom: 19,
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      var boatIcon = L.icon({
+        iconUrl: "/icons/marker/boat.png",
+        iconSize: [15, 23],
+        iconAnchor: [22, 18],
+        popupAnchor: [-3, -76],
+      });
+
+      map.whenReady(function () {
+        var bounds = map.getBounds();
+        var url =
+          "https://www.econdb.com/maritime/search/?" +
+          "ab=" +
+          bounds.getSouthWest().lat +
+          "%2C" +
+          bounds.getSouthWest().lng +
+          "%2C" +
+          bounds.getNorthEast().lat +
+          "%2C" +
+          bounds.getNorthEast().lng +
+          "&center=" +
+          centerCoords[0] +
+          "%2C" +
+          centerCoords[1];
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            data.response.docs.forEach((doc) => {
+              if (doc.coord) {
+                // Parse the coordinates if they're a string
+                let coords = Array.isArray(doc.coord)
+                  ? doc.coord
+                  : doc.coord.split(",").map(Number);
+                // Check if both coordinates are numbers
+                if (
+                  coords.length === 2 &&
+                  !isNaN(coords[0]) &&
+                  !isNaN(coords[1])
+                ) {
+
+                    let popupContent = `
+                    <img src='https://api.maritimeoptima.com/vesselpictures/${doc.imo}'width="160" height="100" /><br/>
+                    <hr>
+                    <strong>VSL:</strong> ${doc.name} <br/>
+                    <strong>MMSI:</strong> ${doc.mmsi} <br/>
+                    <strong>Line:</strong> ${doc.operator} <br/>
+                    <strong>Ship Type:</strong> ${doc.ship_type} <br/>
+                    <strong>Load:</strong> ${doc.percent_load}% <br/>
+                    <strong>Last Seen:</strong> ${doc.last_seen} <br/>
+                  `;
+
+                  L.marker(coords, {
+                    icon: boatIcon,
+                    rotationAngle: doc.heading
+                }).addTo(map)
+                  .bindPopup(popupContent)
+                  .openPopup();
+
+                }
+              }
+            });
+          })
+          .catch((error) => console.error("Error:", error));
+      });
+    </script>
+    <script src="/js/rotateMarker.js"></script>
+  </body>
+</html>
