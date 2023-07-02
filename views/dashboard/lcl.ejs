@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MTLab.</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+    <link href="https://appstack.bootlab.io/css/light.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+    />
+    <style>
+      body {
+        background: url(./train.jpg) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        font-family: "HelveticaNeue", "Arial", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+     <%- include('./sidebar') %>
+    <main class="content">
+      <div class="container-fluid p-0">
+        <h1 class="h3 mb-3" style="font-weight: bold; color: white">
+          TSR LCL 견적 Form
+        </h1>
+        <div class="row">
+          <div class="col-md-6 offset-md-3">
+            <div class="card">
+              <div class="card-body md-5">
+                <div class="h3 mb-4">
+                  안녕하세요!
+                  <br />
+                  아래의 빈칸에 화물 Size를 기입해주시고, Calcuate 버튼을
+                  눌러주세요.
+                </div>
+                <hr class="row" />
+                <div class="col-12 col-xl-12">
+                  <div class="mb-4">
+                    <label class="form-label"
+                      >Width:
+                      <input id="width" type="number" step="0.01" /> cm</label
+                    >
+                  </div>
+                </div>
+                <div class="col-12 col-xl-12">
+                  <div class="mb-4">
+                    <label class="form-label"
+                      >Length:
+                      <input id="length" type="number" step="0.01" /> cm</label
+                    >
+                  </div>
+                </div>
+
+                <div class="col-12 col-xl-12">
+                  <div class="mb-4">
+                    <label class="form-label"
+                      >Height:
+                      <input id="height" type="number" step="0.01" /> cm</label
+                    >
+                  </div>
+                </div>
+                <div class="col-12 col-xl-12">
+                  <div class="mb-4">
+                    <label class="form-label"
+                      >Gross:
+                      <input
+                        class="form-label"
+                        id="grossWeight"
+                        type="number"
+                        step="0.01"
+                      />
+                      kg</label
+                    >
+                  </div>
+                </div>
+                <hr />
+                <button class="btn btn-primary" onclick="calculate()">
+                  <i class="fa fa-check"></i>
+                  Calculate
+                </button>
+
+                <br />
+              </div>
+            </div>
+            </div>
+            </div>
+
+            <div class="col-md-6 offset-md-3">
+              <div class="card">
+                <div class="card-body md-5">
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="card-title">CBM: <span id="cbm"></span></h5>
+                        <h5 class="card-title">
+                          R.Ton: <span id="grossWeightByThousand"></span>
+                        </h5>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <table
+                        id="chargesTable"
+                        class="table table-striped dataTable no-footer dtr-inline"
+                        style="width: 100%"
+                      >
+                        <thead>
+                          <tr>
+                            <th>Item</th>
+                            <th>Rate</th>
+                            <th>CBM</th>
+                            <th>Value</th>
+                          </tr>
+                        </thead>
+                        <tbody id="charges">
+                          <!-- Charges will be inserted here -->
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <th colspan="3">Total</th>
+                            <th id="total"></th>
+                          </tr>
+                        </tfoot>
+                      </table>
+
+                      <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                          <div class="dt-buttons btn-group flex-wrap">
+                            <button
+                              class="btn btn-secondary buttons-copy buttons-html5"
+                              onclick="selectElementContents(document.getElementById('chargesTable'))"
+                            >
+                              <i class="fa fa-copy"></i>
+                              Copy
+                            </button>
+                            &nbsp &nbsp
+
+                            <button
+                              class="btn btn-secondary buttons-excel"
+                              id="btnExport"
+                            >
+                              <i
+                                class="fa fa-file-excel"
+                                style="color: green"
+                              ></i>
+                              Excel
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+          </div>
+        </div>
+    </main>
+
+    <script>
+      function calculate() {
+        var width = parseFloat(document.getElementById("width").value);
+        var length = parseFloat(document.getElementById("length").value);
+        var height = parseFloat(document.getElementById("height").value);
+        var grossWeight = parseFloat(
+          document.getElementById("grossWeight").value
+        );
+        var grossWeightByThousand = grossWeight / 1000;
+        document.getElementById("grossWeightByThousand").innerText =
+          grossWeightByThousand;
+
+        var cbm = (width * length * height) / 1000000;
+        cbm = +cbm.toFixed(2);
+
+        var finalCbm = Math.max(cbm, grossWeightByThousand);
+
+        document.getElementById("cbm").innerText = finalCbm;
+
+        var freightRate = 100; // set your value
+        var thc = 50; // set your value
+        var cfsCharge = 75; // set your value
+        var documentCharge = 120; // set your value
+
+        var charges = [
+          {
+            name: "Freight Rate",
+            rate: freightRate,
+            cbm: finalCbm,
+            value: (freightRate * finalCbm).toFixed(2),
+          },
+          {
+            name: "THC",
+            rate: thc,
+            cbm: finalCbm,
+            value: (thc * finalCbm).toFixed(2),
+          },
+          {
+            name: "CFS Charge",
+            rate: cfsCharge,
+            cbm: finalCbm,
+            value: (cfsCharge * finalCbm).toFixed(2),
+          },
+          {
+            name: "Document Charge",
+            rate: documentCharge,
+            cbm: 1,
+            value: documentCharge.toFixed(2),
+          }, // document charge is not multiplied by cbm
+        ];
+
+        var total = charges.reduce(
+          (acc, charge) => acc + Number(charge.value),
+          0
+        );
+
+        var chargesTable = document.getElementById("charges");
+        chargesTable.innerHTML = "";
+        charges.forEach((charge) => {
+          var row = document.createElement("tr");
+          row.innerHTML = `<td>${charge.name}</td><td>${charge.rate.toFixed(
+            2
+          )}</td><td>${charge.cbm}</td><td>${charge.value}</td>`;
+          chargesTable.appendChild(row);
+        });
+
+        document.getElementById("total").innerText = total.toFixed(2);
+      }
+
+      function selectElementContents(el) {
+        var body = document.body,
+          range,
+          sel;
+        if (document.createRange && window.getSelection) {
+          range = document.createRange();
+          sel = window.getSelection();
+          sel.removeAllRanges();
+          try {
+            range.selectNodeContents(el);
+            sel.addRange(range);
+          } catch (e) {
+            range.selectNode(el);
+            sel.addRange(range);
+          }
+        } else if (body.createTextRange) {
+          range = body.createTextRange();
+          range.moveToElementText(el);
+          range.select();
+        }
+        document.execCommand("Copy");
+      }
+      $(document).ready(function () {
+        $("#btnExport").on("click", function () {
+          $("#chargesTable").table2excel({
+            name: "Worksheet Name",
+            filename: "ExportToExcel",
+            fileext: ".xls",
+          });
+        });
+      });
+    </script>
+    <script src="https://appstack.bootlab.io/js/app.js"></script>
+  </body>
+</html>

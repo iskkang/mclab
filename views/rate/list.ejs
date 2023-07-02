@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sheets List</title>
+</head>
+        <link href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+    <link class="js-stylesheet" href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+    <script src="https://appstack.bootlab.io/js/app.js"></script>
+    
+<body>
+    <%- include('../dashboard/sidebar') %>
+    
+    <main class="content">
+    <div class="container-fluid p-0">
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3>RUS, CIS 운임</h3>
+
+  <% sheets.forEach(sheet => { %>
+    <p>
+      <a href="/rate/sheets/<%= sheet %>"><%= sheet %></a>
+    </p>
+  <% }) %>
+            </div>
+        </div>
+        </div>
+    </main>
+</body>
+</html>

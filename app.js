@@ -6,7 +6,7 @@ const itemsRouter = require("./routes/items");
 const portRouter = require("./routes/port");
 const portController = require("./controllers/portController");
 const dataRouter = require('./routes/data');
-const dataController = require("./controllers/dataController");
+const fileRouter = require('./routes/file');
 var router = express.Router()
 
 const app = express();
@@ -21,6 +21,7 @@ app.use("/items", itemsRouter);
 app.use("/quote", itemsRouter);
 app.use("/port", portRouter);
 app.use("/dashboard", dataRouter);
+app.use("/rate", fileRouter);
 
 
 const seaportRouter = require("./routes/seaport");
@@ -44,6 +45,9 @@ app.get("/weather", function (req, res) {
 });
 app.get("/congestion", function (req, res) {
   res.render("dashboard/congestion");
+});
+app.get("/lcl", function (req, res) {
+  res.render("dashboard/lcl");
 });
 
 
