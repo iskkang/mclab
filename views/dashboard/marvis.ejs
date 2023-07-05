@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Map</title>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+    <div id='map' style='width: 400px; height: 300px;'></div>
+
+    <table id="mmsi-table">
+        <tr>
+            <th>House_No</th>
+            <th>Customer_Name</th>
+            <th>POL</th>
+            <th>POD</th>
+            <th>F_DEST</th>
+            <th>Container_no</th>
+            <th>Vessel</th>
+            <th>MMSI</th>
+        </tr>
+        <% data.forEach(function(item) { %>
+            <tr>
+                <td><%= item.House_No %></td>
+                <td><%= item.Customer_Name %></td>
+                <td><%= item.POL %></td>
+                <td><%= item.POD %></td>
+                <td><%= item.F_DEST %></td>
+                <td><%= item.Container_no %></td>
+                <td><%= item.Vessel %></td>
+                <td><a href="#" class="mmsi-link" data-mmsi="<%= item.mmsi %>"><%= item.mmsi %></a></td>
+            </tr>
+        <% }); %>
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2FycmllLXhpYSIsImEiOiJja3Z0NDVtMzczZWpnMm9tdG92eHgxZXo5In0.DQ9J_C1Np1kl0Slf4EVoMA';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-74.5, 40], // starting position
+            zoom: 9 // starting zoom
+        });
+
+        let mmsiLinks = document.querySelectorAll('.mmsi-link');
+
+        mmsiLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+            
+                let mmsi = e.target.getAttribute('data-mmsi');
+            
+                $.ajax({
+                    url: '/get-location',
+                    type: 'POST',
+                    data: {
+                        mmsi: mmsi
+                    },
+                    success: function(locationData) {
+                        // Assume that data is in the format { longitude: number, latitude: number }
+                        new mapboxgl.Marker()
+                            .setLngLat([locationData.longitude, locationData.latitude])
+                            .addTo(map);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

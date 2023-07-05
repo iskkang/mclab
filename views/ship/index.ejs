@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ship Data</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+    <link href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+    <link class="js-stylesheet" href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+    <link href='https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css' rel='stylesheet' />
+    <script src='https://code.jquery.com/jquery-3.5.1.js'></script>
+    <script src='https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js'></script>
+</head>
+<body>
+    <%- include('../dashboard/sidebar') %>
+    <main class="content">
+      <div class="container-fluid p-0">
+    
+    <div id='map' style='width: 1300px; height: 500px;'></div>
+        </div>
+        
+    <table id="mmsi-table">
+        <thead>
+            <tr>
+                <th>Track</th>
+                <th>House No</th>
+                <th>Customer Name</th>
+                <th>POL</th>
+                <th>POD</th>
+                <th>F_DEST</th>
+                <th>Vessel</th>
+                <th>MMSI</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        </tbody>
+    </table>
+    <script src="js/shipTable.js"></script>
+        <script>
+        $('#mmsi-table').DataTable({
+    scrollY: '500px',
+    scrollCollapse: true,
+    paging: false,
+});
+        </script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2FycmllLXhpYSIsImEiOiJja3Z0NDVtMzczZWpnMm9tdG92eHgxZXo5In0.DQ9J_C1Np1kl0Slf4EVoMA';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [0, 0],
+            zoom: 8
+        });
+
+        function fetchAndShowPosition(mmsi) {
+            fetch('/getLastPositionFromMT/' + mmsi)
+                .then(response => response.json())
+                .then(data => {
+                    var marker = new mapboxgl.Marker()
+                        .setLngLat([data.data.longitude, data.data.latitude])
+                        .addTo(map);
+                    map.flyTo({
+                        center: [data.data.longitude, data.data.latitude],
+                        essential: true
+                    });
+                });
+        }
+
+        // Add event listeners to the MMSI links
+        document.addEventListener('DOMContentLoaded', function() {
+            const mmsiLinks = document.getElementsByClassName('mmsi-link');
+
+            for (let i = 0; i < mmsiLinks.length; i++) {
+                mmsiLinks[i].addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const mmsi = this.getAttribute('data-mmsi');
+                    fetchAndShowPosition(mmsi);
+               });
+            }
+        });
+    </script>
+</body>
+</html>

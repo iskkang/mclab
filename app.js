@@ -7,6 +7,8 @@ const portRouter = require("./routes/port");
 const portController = require("./controllers/portController");
 const dataRouter = require('./routes/data');
 const fileRouter = require('./routes/file');
+const api = require('./api');
+
 var router = express.Router()
 
 const app = express();
@@ -50,6 +52,30 @@ app.get("/lcl", function (req, res) {
   res.render("dashboard/lcl");
 });
 
+app.get('/ship', function (req, res) {
+    res.render("ship/index");
+});
+app.get('/position', function (req, res) {
+    res.render("ship/position");
+});
+
+app.get('/getLastPositionFromVF/:mmsi', (req, res) => {
+    api.getLocationFromVF(req.params.mmsi, (result) => {
+      res.send(result);
+    });
+  });
+
+  app.get('/getLastPositionFromMT/:mmsi', (req, res) => {
+    api.getLocationFromMT(req.params.mmsi, (result) => {
+      res.send(result);
+    });
+  });
+
+  app.get('/getLastPosition/:mmsi', (req, res) => {
+    api.getLocation(req.params.mmsi, (result) => {
+      res.send(result);
+    });
+  });
 
 app.get("/api/data", portController.index);
 app.get("/api/stations/:id/realtime", portController.getRealtimeData);

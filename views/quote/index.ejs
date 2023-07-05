@@ -4,23 +4,17 @@
     <title>Item List</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap5.min.css"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap5.min.css"/>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <link href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+    <link class="js-stylesheet" href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+      <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
     <div class="container-scroller">
-      <%- include('../partials/navbar') %>
+      <%- include('../dashboard/sidebar') %>
       <div class="container-fluid page-body-wrapper">
         <div class="container">
           <div class="col-12">
@@ -28,7 +22,7 @@
             <h2 class="card-title">Inquiry List</h2>
             <br />
             <a href="/items/add" button class="btn btn-sm btn-primary">Add</a>
-            <a href="/dashboard" button class="btn btn-sm btn-secondary">Dashboard</a>
+            <a href="/dashboard" button class="btn btn-sm btn-warning">Dashboard</a>
             <hr />
           </div>
 
@@ -56,7 +50,7 @@
               <tr>
                 <td><%= item.id %></td>
                 <td>
-                  <label class="badge badge-success"><%= item.status %></label>
+                  <label class="badge bg-success"><%= item.status %></label>
                 </td>
                 <td><%= item.shpt %></td>
                 <td>
@@ -79,7 +73,7 @@
                 <td>
                   <a
                     href="/items/edit/<%= item.id %>"
-                    class="btn btn-sm btn-warning"
+                    class="btn btn-warning"
                     ><i class="fas fa-edit"></i
                   ></a>
                   <form
@@ -87,7 +81,7 @@
                     method="POST"
                     style="display: inline-block"
                   >
-                    <button type="submit" class="btn btn-sm btn-danger">
+                    <button type="submit" class="btn btn-danger">
                       <i class="fas fa-trash-alt"></i>
                     </button>
                   </form>
@@ -98,10 +92,10 @@
           </table>
         </div>
       </div>
-
-      <!-- The rest of your HTML file... -->
     </div>
-    <%- include('../partials/footer') %>
+      <!-- The rest of your HTML file... -->
+
+    <%- include('../dashboard/footer') %>
 
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -109,7 +103,8 @@
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
       integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-      crossorigin="anonymous"
-    ></script>
+      crossorigin="anonymous"></script>
+       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/js/bootstrap.min.js"></script>
   </body>
 </html>

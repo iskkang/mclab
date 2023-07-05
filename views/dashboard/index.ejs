@@ -354,8 +354,8 @@
 								<table id="datatables-dashboard-traffic" class="table table-striped my-0">
 									<thead>
 										<tr>
-											<th></th>
-											<th class="text-end">Customer</th>
+											<th class="text-center">Customer</th>
+											
 											<th class="d-none d-xl-table-cell text-end">TEU</th>
 											<th class="d-none d-xl-table-cell text-end">R.Ton</th>
 											<th class="d-none d-xl-table-cell text-end">Profit</th>
@@ -365,7 +365,7 @@
                                         <% for(let i=0; i<sortedCustomerData.length; i++) { %>
 										<tr>
 											<td><%= sortedCustomerData[i].Customer_Name %></td>
-											<td class="text-center"><%= sortedCustomerData[i].TEU_Sum %></td>
+											
 											<td class="d-none d-xl-table-cell text-end"><%= sortedCustomerData[i].TEU_Sum %></td>
 											<td class="d-none d-xl-table-cell text-end"><%= sortedCustomerData[i].RTON_Sum %></td>
 											<td class="d-none d-xl-table-cell text-end text-success"><%= sortedCustomerData[i].ProfitTotal_Sum %></td>

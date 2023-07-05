@@ -1,5 +1,3 @@
-// models/Seaport.js
-
 const fetch = require("node-fetch");
 
 exports.fetchData = async (pageNum) => {

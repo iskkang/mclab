@@ -1,0 +1,27 @@
+.custom-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  width: 600px;
+  display: none;
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.mapboxgl-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  width: 600px;
+  display: none;
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+
