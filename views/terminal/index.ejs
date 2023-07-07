@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vessel Loctaion</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+    <link class="js-stylesheet" href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+    <script src="https://appstack.bootlab.io/js/app.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+</head>
+<body>
+    <%- include('../dashboard/sidebar') %>
+    <main class="content">
+        
+ <% if (data.length > 0) { %>
+    
+<label>
+  Port:
+  <select id="portFilter">
+    <option value="">All</option>
+    <!-- Options will be dynamically populated -->
+  </select>
+</label>
+    <br>
+    <table id=berthTable>
+        <thead>
+            <tr>
+                <th>Port Name</th>
+                <th>Terminal</th>
+                <th>Vessel Name</th>
+                <th>MMSI</th>
+                <th>입항일</th>
+                <th>Closing Date</th>
+                <th>Departure</th>
+                <th>Departure Date</th>
+                <th>Operator</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach(item => { %>
+                <tr>
+                    <td><%= item.portNm %></td>
+                    <td><%= item.terminal %></td>
+                    <td><%= item.vesselNm %></td>
+                    <td><a href="/map/<%= item.mmsi %>"><%= item.mmsi %></a></td>
+                    <td><%= item.berthnDtm %></td>
+                    <td><%= item.closingDtm %></td>
+                    <td><% 
+            var now = new Date();
+            var depTime = new Date(item.depDtm.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1/$2/$3 $4:$5:$6"));
+            if (now > depTime) {
+                %> Departed <% 
+            } else { 
+                %> On Process <% 
+            } 
+            %></td>
+                    <td><%= item.depDtm %></td>
+                    <td><%= item.operator %></td>
+              </tr>
+            <% }) %>
+        </tbody>
+    </table>
+<% } else { %>
+    <p>No data available</p>
+<% } %>
+
+<script>
+$(document).ready( function () {
+    var table = $('#berthTable').DataTable({
+        pageLength: 50,  // set initial page length to 50
+        lengthMenu: [[50, 100, 200, -1], [50, 100, 200, "All"]]  // set length menu options
+    });
+
+    // Get unique port names and populate the select input
+    table.columns(0).every( function () {
+        var column = this;
+        var select = $('#portFilter');
+        
+        column.data().unique().sort().each( function ( val, i ) {
+            select.append( '<option value="'+val+'">'+val+'</option>' );
+        } );
+    } );
+
+    // Filter table when a port is selected
+    $('#portFilter').on('change', function () {
+        table.columns(0).search(this.value).draw();
+    } );
+} );
+</script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vessel Loctaion</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+    <link class="js-stylesheet" href="https://appstack.bootlab.io/css/light.css" rel="stylesheet">
+    <script src="https://appstack.bootlab.io/js/app.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+</head>
+<body>
+    <%- include('../dashboard/sidebar') %>
+    <main class="content">
+    
+    <div id='mapid' style='height: 500px'></div>
+    <div>
+    <a class="btn btn-primary" href="/terminal" role="button">리스트</a>
+    <a class="btn btn-primary" href="/terminal" role="button">Dashboard</a>
+    </div>
+    
+    
+    <table id="data-table" class="display">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>POL</th>
+            <th>Type</th>
+            <th>Operator</th>
+            <th>Update</th>
+            <th>Next Port</th>
+            <th>Next ETA</th>
+            <th>Delay</th>
+            <th>진행률</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Rows will be dynamically populated -->
+    </tbody>
+</table>
+    </main>
+
+    <script>
+        let map = L.map('mapid').setView([51.505, -0.09], 3);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        const mmsi = '<%= mmsi %>';
+        const url = `https://www.econdb.com/maritime/vessel/async/${mmsi}/?lb=1685803241448&ub=1689000041448`;
+
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            // Get the latest position
+            let positions = data.positions;
+            let latestPosition = positions[positions.length - 1];
+            
+
+            // Add marker
+            let marker = L.marker([latestPosition.lat, latestPosition.lon]).addTo(map);
+            marker.bindPopup(data.data.Name).openPopup();
+            map.flyTo([latestPosition.lat, latestPosition.lon], 5);
+  
+        
+            let latestSchedule = data.schedules[data.schedules.length - 1];
+            
+               let percent;
+                if (data.trip) {
+                  let trip = data.trip;
+                   percent = Number(trip.percent.replace('%', ''));
+                   tripState = `${trip.Origin_iso2}${trip.Origin_locode} → ${trip.Destination_iso2}${trip.Destination_locode}`;
+                }
+            
+             let date = new Date(latestSchedule.updated_on);
+            let formattedDate = date.toLocaleString('en-US', { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+            formattedDate = formattedDate.replace(/\//g, '-');
+
+
+        let tableRow = `<tr>
+            <td>${data.data.Name}</td>
+            <td>${latestSchedule.locode}</td>
+            <td>${data.data.Type[0]}</td>
+            <td>${data.data.operator}</td>
+            <td>${formattedDate}</td>
+            <td>${latestSchedule.next_stop}</td>
+            <td>${latestSchedule.next_eta}</td>
+            <td>${latestSchedule.delay}</td>
+            <td>
+                <span style="font-size:8px">${tripState}</span>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100" style="width:${percent}%">
+                        ${percent}%
+                    </div>
+                </div>
+            </td>
+        </tr>`;
+
+        $('#data-table tbody').append(tableRow);
+
+        // Initialize DataTables
+        $('#data-table').DataTable();
+      })
+      .catch(error => console.error('Error:', error));
+</script>
+</body>
+</html>

@@ -7,7 +7,10 @@ const portRouter = require("./routes/port");
 const portController = require("./controllers/portController");
 const dataRouter = require('./routes/data');
 const fileRouter = require('./routes/file');
+const terminalRouter = require('./routes/terminal');
+const terminalcontroller = require('./controllers/terminalController');
 const api = require('./api');
+const moment = require('moment');
 
 var router = express.Router()
 
@@ -24,7 +27,7 @@ app.use("/quote", itemsRouter);
 app.use("/port", portRouter);
 app.use("/dashboard", dataRouter);
 app.use("/rate", fileRouter);
-
+app.use("/terminal", terminalRouter);
 
 const seaportRouter = require("./routes/seaport");
 app.use("/seaports", seaportRouter);
@@ -36,9 +39,7 @@ app.get("/portview", function (req, res) {
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "index.html"));
 });
-app.get("/terminal", function (req, res) {
-  res.sendFile(path.join(__dirname, "/pages/terminal.html"));
-});
+
 app.get("/terminalop", function (req, res) {
   res.sendFile(path.join(__dirname, "/pages/terminal-operation.html"));
 });
@@ -57,6 +58,11 @@ app.get('/ship', function (req, res) {
 });
 app.get('/position', function (req, res) {
     res.render("ship/position");
+});
+
+app.get('/map/:mmsi', function(req, res) {
+  const mmsi = req.params.mmsi;
+  res.render('terminal/map', { mmsi: mmsi });
 });
 
 app.get('/getLastPositionFromVF/:mmsi', (req, res) => {
